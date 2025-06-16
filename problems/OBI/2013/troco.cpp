@@ -1,31 +1,26 @@
 #include <bits/stdc++.h>
-#define MAXV 100007
-#define MAXM 1007
 
 using namespace std;
 
-int moedas[MAXM], m;
+const int MAXV = 1e5+7;
+
 bool dp[MAXV];
 
 int main(){
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
+        int v, m; cin >> v >> m;
 
-	memset(dp, 0, sizeof(dp));
-	dp[0] = true;
+        vector <int> moedas(m, 0);
+        for(int &x: moedas) cin >> x;
 
-	int v;
-	cin >> v >> m;
+        dp[0] = 1;
 
-	for(int i = 0; i < m; i++) cin >> moedas[i];
+        for(int i = 0; i < m; i++){
+                for(int j = v; j >= 0; j--){
+                        if(dp[j] && j+moedas[i] <= v) dp[j+moedas[i]] = 1;
+                }
+        }
 
-	for(int i = 0; i < m; i++){
-		for(int j = v - moedas[i]; j >= 0; j--){
-			if(dp[j] == true) dp[j+moedas[i]] = true;
-			}
-	}
+        cout << (dp[v] ? 'S' : 'N') << endl;
 
-	cout << (dp[v] ? 'S':'N') << endl;
-
-	return 0;
+        return 0;
 }
